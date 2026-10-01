@@ -1,0 +1,95 @@
+<?php
+/**
+ * Todd Upshaw
+ * October 1, 2026
+ * SDC310 - Week 5 Performance Assessment
+ * Description: Displays the Name retrieved from the cookie and the Date of Birth retrieved from the session.
+ */
+
+// Start session to access session variables
+session_start();
+
+// Define Cookie name
+$cookie_name = "user_name";
+
+// Retrieve values from Cookie and Session
+$display_name = isset($_COOKIE[$cookie_name]) ? $_COOKIE[$cookie_name] : 'Not Set';
+$display_dob = isset($_SESSION['user_dob']) ? $_SESSION['user_dob'] : 'Not Set';
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todd Upshaw Wk 5 Performance Assessment</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background-color: #f4f6f9;
+            color: #333;
+        }
+        .container {
+            max-width: 500px;
+            background: #ffffff;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            margin-top: 0;
+            color: #28a745;
+        }
+        .display-card {
+            background-color: #e9ecef;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 20px 0;
+        }
+        .display-item {
+            margin-bottom: 15px;
+        }
+        .display-item label {
+            font-weight: bold;
+            color: #495057;
+        }
+        .display-item span {
+            font-size: 16px;
+            color: #007bff;
+            font-weight: bold;
+        }
+        .nav-link {
+            display: inline-block;
+            margin-top: 10px;
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .nav-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Todd Upshaw Wk 5 Performance Assessment</h2>
+    <p><em>Data Display Page</em></p>
+
+    <div class="display-card">
+        <div class="display-item">
+            <label>Name (From Cookie):</label><br>
+            <span><?php echo htmlspecialchars($display_name); ?></span>
+        </div>
+
+        <div class="display-item">
+            <label>Date of Birth (From Session):</label><br>
+            <span><?php echo htmlspecialchars($display_dob); ?></span>
+        </div>
+    </div>
+
+    <a href="data_entry.php" class="nav-link">&larr; Back to Data Entry Page</a>
+</div>
+
+</body>
+</html>
