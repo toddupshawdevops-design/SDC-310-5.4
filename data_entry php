@@ -1,0 +1,126 @@
+<?php
+/**
+ * Todd Upshaw
+ * October 1, 2026
+ * SDC310 - Week 5 Performance Assessment
+ * Description: Data entry page that saves Name to a cookie and Date of Birth to a session,
+ * while displaying stored values inside the input fields.
+ */
+
+// Start session to store and access session variables
+session_start();
+
+// Define Cookie details
+$cookie_name = "user_name";
+$cookie_expiration = time() + (86400 * 30); // 30-day expiration
+
+// Process form submission
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Sanitize user inputs
+    $input_name = isset($_POST['name']) ? htmlspecialchars(trim($_POST['name'])) : '';
+    $input_dob = isset($_POST['dob']) ? htmlspecialchars(trim($_POST['dob'])) : '';
+
+    // Store Name in Cookie
+    if (!empty($input_name)) {
+        setcookie($cookie_name, $input_name, $cookie_expiration, "/");
+        $_COOKIE[$cookie_name] = $input_name; // Update immediate superglobal context
+    }
+
+    // Store Date of Birth in Session
+    if (!empty($input_dob)) {
+        $_SESSION['user_dob'] = $input_dob;
+    }
+}
+
+// Retrieve stored values for input field persistence
+$saved_name = isset($_COOKIE[$cookie_name]) ? $_COOKIE[$cookie_name] : '';
+$saved_dob = isset($_SESSION['user_dob']) ? $_SESSION['user_dob'] : '';
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todd Upshaw Wk 5 Performance Assessment</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background-color: #f4f6f9;
+            color: #333;
+        }
+        .container {
+            max-width: 500px;
+            background: #ffffff;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            margin-top: 0;
+            color: #007bff;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        label {
+            font-weight: bold;
+        }
+        input[type="text"], input[type="date"] {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .nav-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #28a745;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .nav-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Todd Upshaw Wk 5 Performance Assessment</h2>
+    <p><em>Data Entry Page</em></p>
+
+    <form method="POST" action="data_entry.php">
+        <div>
+            <label for="name">Name (Stored in Cookie):</label><br>
+            <input type="text" id="name" name="name" value="<?php echo htmlspecialchars($saved_name); ?>" required>
+        </div>
+
+        <div>
+            <label for="dob">Date of Birth (Stored in Session):</label><br>
+            <input type="date" id="dob" name="dob" value="<?php echo htmlspecialchars($saved_dob); ?>" required>
+        </div>
+
+        <button type="submit">Submit & Save Data</button>
+    </form>
+
+    <a href="data_display.php" class="nav-link">Go to Data Display Page &rarr;</a>
+</div>
+
+</body>
+</html>
